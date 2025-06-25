@@ -1,5 +1,6 @@
 package com.urbanstream.auth_service.model;
 
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,8 @@ public class User {
 
     private boolean enabled = true;
 
+
+
+public class User {
 
 }
