@@ -1,26 +1,26 @@
+server:
+  port: 8082
 
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://amiralivillan:UrbanStream@urbanstream.fgi0tnd.mongodb.net/auth
-  application:
-    name: auth-service
-  server:
-    port: 8081
+      uri: mongodb+srv://amiralivillan:UrbanStream@urbanstream.fgi0tnd.mongodb.net/authData
+
   security:
     oauth2:
       client:
         registration:
-          keycloak:
-            client-id: auth-service
-            client-secret: p7sALmcBbxzBfPqj7thuphWtxFSKOi3U
-            provider: keycloak
-            authorization-grant-type: authorization_code
+          google:
+            client-id: 732170107051-98op5lpkoc5k8hi99jvth4bel0vmn5sk.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - openid
+              - profile
+              - email
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid,profile,email
         provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/realms/urbanstream
-            user-name-attribute: preferred_username
-
-
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
