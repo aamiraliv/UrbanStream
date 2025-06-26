@@ -4,8 +4,11 @@ import com.urbanstream.auth_service.model.User;
 import com.urbanstream.auth_service.repository.UserRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -19,29 +22,27 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/me")
-    public Map<String, Object> getUser(@AuthenticationPrincipal OidcUser principal) {
-        String googleId = principal.getSubject();
-        String name = principal.getFullName();
-        String email = principal.getEmail();
-        String picture = principal.getPicture();
-
-        User user = userRepository.findByGoogleId(googleId);
-        if (user == null) {
-            user = new User();
-            user.setGoogleId(googleId);
-            user.setName(name);
-            user.setEmail(email);
-            user.setPicture(picture);
-            userRepository.save(user);
+    public ResponseEntity<?> getUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not authenticated"));
         }
 
-        return Map.of(
+        String email = authentication.getName(); // JWT contains email as principal
+
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "User not found"));
+        }
+
+        return ResponseEntity.ok(Map.of(
                 "id", user.getId(),
-                "googleId", googleId,
-                "name", name,
-                "email", email,
-                "picture", picture
-        );
+                "googleId", user.getGoogleId(),
+                "name", user.getName(),
+                "email", user.getEmail(),
+                "picture", user.getPicture()
+        ));
     }
+
+
 
 }
