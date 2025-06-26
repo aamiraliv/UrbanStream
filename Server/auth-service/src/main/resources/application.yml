@@ -4,15 +4,15 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://amiralivillan:UrbanStream@urbanstream.fgi0tnd.mongodb.net/authData
+      uri: ${MONGODB_URI}
 
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 732170107051-98op5lpkoc5k8hi99jvth4bel0vmn5sk.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - openid
               - profile
