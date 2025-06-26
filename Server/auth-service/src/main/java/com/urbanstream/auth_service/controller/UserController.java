@@ -1,42 +1,47 @@
 package com.urbanstream.auth_service.controller;
 
 import com.urbanstream.auth_service.model.User;
-import com.urbanstream.auth_service.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import com.urbanstream.auth_service.repository.UserRepository;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    @GetMapping("/me")
+    public Map<String, Object> getUser(@AuthenticationPrincipal OidcUser principal) {
+        String googleId = principal.getSubject();
+        String name = principal.getFullName();
+        String email = principal.getEmail();
+        String picture = principal.getPicture();
 
-    @PostMapping("/add")
-    public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
-        return ResponseEntity.ok(userService.saveUser(user));
-    }
+        User user = userRepository.findByGoogleId(googleId);
+        if (user == null) {
+            user = new User();
+            user.setGoogleId(googleId);
+            user.setName(name);
+            user.setEmail(email);
+            user.setPicture(picture);
+            userRepository.save(user);
+        }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
-
-    @GetMapping("/{email}")
-    public ResponseEntity<Long> getUserByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(userService.findByEmail(email));
-    }
-
-    @GetMapping("/oauth-success")
-    public ResponseEntity<String> oauthSuccess(Authentication authentication) {
-        return ResponseEntity.ok("OAuth Login Successful for: " + authentication.getName());
+        return Map.of(
+                "id", user.getId(),
+                "googleId", googleId,
+                "name", name,
+                "email", email,
+                "picture", picture
+        );
     }
 
 }
