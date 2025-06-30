@@ -1,18 +1,19 @@
-import React from 'react';
+// import React from 'react';
 
-function Login() {
-  const handleLogin = () => {
-    window.location.href = 'http://localhost:8082/oauth2/authorization/google';
-  };
+// function Login() {
+//   const handleLogin = () => {
+//     window.location.href = 'http://localhost:8082/oauth2/authorization/google';
+//   };
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: '100px' }}>
-      <h1>Login Page</h1>
-      <button onClick={handleLogin} style={{ padding: '10px 20px', fontSize: '18px' }}>
-        Login with Google
-      </button>
-    </div>
-  );
-}
+//   return (
+//     <div style={{ textAlign: 'center', marginTop: '100px', background:'red'}} >
+//       <h1>Login Page</h1>
+//       <button onClick={handleLogin} style={{ padding: '10px 20px', fontSize: '18px' }}>
+//         Login with Google
+//       </button>
+//       <img src="../../public/Urban stream.svg" alt="demo" />
+//     </div>
+//   );
+// }
 
-export default Login;
+// export default Login;
