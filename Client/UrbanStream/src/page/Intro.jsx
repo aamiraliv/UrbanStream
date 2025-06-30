@@ -12,11 +12,21 @@ import {
   MdMap,
   MdComputer,
   MdCloud,
+  MdClose,
 } from "react-icons/md";
 import logo from "../assets/UrbanStream_Logo.svg";
 import UrbanStream from "../assets/Urban Stream.svg";
+import GreenLogo from "../assets/Logo.svg";
+import {
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import { FcGoogle } from "react-icons/fc";
 
 export const Intro = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [currentStats, setCurrentStats] = useState({
     activeRoads: 247,
     avgSpeed: 42,
@@ -51,8 +61,101 @@ export const Intro = () => {
 
   return (
     <>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <DialogPanel className="relative max-w-sm w-full mx-auto">
+            <div className="glass-card relative bg-black/30 backdrop-blur-[20px] border border-white/10 rounded-[20px] p-6 transition-all duration-300 overflow-hidden">
+              <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-50 pointer-events-none"></div>
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+
+              <button
+                onClick={() => setIsOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-200 backdrop-blur-sm border border-white/10"
+              >
+                <MdClose className="w-5 h-5 text-white/70" />
+              </button>
+
+              <div className="relative z-10 text-center space-y-6">
+                <div className="flex justify-center">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#ade17d]/20 to-[#86af61]/20 flex items-center justify-center border border-white/10 backdrop-blur-sm">
+                    <img src={GreenLogo} alt="logo" className="w-12 h-12" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <DialogTitle className="text-2xl font-bold bg-gradient-to-br from-white to-[#ade17d] bg-clip-text text-transparent">
+                    Welcome to UrbanStream
+                  </DialogTitle>
+                  <Description className="text-gray-300 text-sm">
+                    Sign in to access your intelligent traffic management
+                    dashboard
+                  </Description>
+                </div>
+
+                <div className="space-y-4">
+                  <button
+                    // onClick={handleGoogleLogin}
+                    className="w-full flex items-center justify-center gap-3 bg-black/10 hover:bg-black/15 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#ade17d]/10 group"
+                  >
+                    <FcGoogle className="w-6 h-6" />
+                    <span className="text-white font-semibold">
+                      Continue with Google
+                    </span>
+                  </button>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-white/10"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-3 bg-black/20 text-gray-400 rounded-full backdrop-blur-sm border border-white/5">
+                        Secure login powered by Google
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ade17d]"></div>
+                      <span>Real-time data</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ade17d]"></div>
+                      <span>AI predictions</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ade17d]"></div>
+                      <span>Smart routing</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ade17d]"></div>
+                      <span>Live monitoring</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-500 leading-relaxed">
+                  By continuing, you agree to our Terms of Service and Privacy
+                  Policy. Your data is secure and encrypted.
+                </p>
+              </div>
+            </div>
+          </DialogPanel>
+        </div>
+      </Dialog>
+
       <div className="min-h-screen md:h-screen md:overflow-y-scroll md:snap-y md:snap-mandatory md:scroll-smooth scrollbar-hide z-50">
-        <div className="fixed top-3 right-3 md:top-4 md:right-4 z-50 p-2 flex items-center justify-center gap-2 cursor-pointer">
+        <div
+          onClick={() => setIsOpen(true)}
+          className="fixed top-3 right-3 md:top-4 md:right-4 z-50 p-2 flex items-center justify-center gap-2 cursor-pointer"
+        >
           <MdRocketLaunch size={16} className="md:hidden text-[#ade17d]" />
           <MdRocketLaunch
             size={20}
@@ -358,7 +461,10 @@ export const Intro = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:gap-6 justify-center items-center">
-              <button className="w-full sm:w-auto bg-gradient-to-r from-[#ade17d] to-[#86af61] text-[#162144] px-6 md:px-8 py-3 md:py-4 rounded-2xl font-semibold text-base md:text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-[#ade17d]/20 hover:shadow-2xl">
+              <button
+                onClick={() => setIsOpen(true)}
+                className="w-full sm:w-auto bg-gradient-to-r from-[#ade17d] to-[#86af61] text-[#162144] px-6 md:px-8 py-3 md:py-4 rounded-2xl font-semibold text-base md:text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-[#ade17d]/20 hover:shadow-2xl"
+              >
                 Start Demo
               </button>
               <button className="w-full sm:w-auto glass-card-button text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl font-semibold text-base md:text-lg hover:scale-105 transition-all duration-300">
