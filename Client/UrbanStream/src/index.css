@@ -138,7 +138,6 @@ body::-webkit-scrollbar {
   border-color: rgba(173, 225, 125, 0.3);
 }
 
- 
 .particle {
   position: absolute;
   background: linear-gradient(
@@ -152,10 +151,6 @@ body::-webkit-scrollbar {
   animation: float 20s infinite ease-in-out;
 }
 
-/*
-
-
-
 .glass-orb {
   position: absolute;
   border-radius: 50%;
@@ -168,18 +163,3 @@ body::-webkit-scrollbar {
   opacity: 0.6;
   animation: pulse 4s ease-in-out infinite;
 }
-  
-
-
-/* Mobile Responsive Adjustments */
-/* @media (max-width: 768px) {
-  .glass-orb {
-    width: 150px !important;
-    height: 150px !important;
-  }
-
-  .particle {
-    width: 30px !important;
-    height: 30px !important;
-  }
-} */
