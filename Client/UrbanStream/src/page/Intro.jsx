@@ -59,6 +59,11 @@ export const Intro = () => {
     return () => clearInterval(interval);
   }, []);
 
+
+   const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:8082/oauth2/authorization/google';
+  };
+
   return (
     <>
       <Dialog
@@ -75,12 +80,7 @@ export const Intro = () => {
               <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
               <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
 
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-200 backdrop-blur-sm border border-white/10"
-              >
-                <MdClose className="w-5 h-5 text-white/70" />
-              </button>
+              
 
               <div className="relative z-10 text-center space-y-6">
                 <div className="flex justify-center">
@@ -101,7 +101,7 @@ export const Intro = () => {
 
                 <div className="space-y-4">
                   <button
-                    // onClick={handleGoogleLogin}
+                    onClick={handleGoogleLogin}
                     className="w-full flex items-center justify-center gap-3 bg-black/10 hover:bg-black/15 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#ade17d]/10 group"
                   >
                     <FcGoogle className="w-6 h-6" />
